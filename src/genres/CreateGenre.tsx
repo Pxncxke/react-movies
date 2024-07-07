@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom";
-import Button from "../utils/Button";
 import { useNavigate } from "react-router-dom";
+import GenreForm from "./GenreForm";
 
 export default function CreateGenre(){
     const navigate  = useNavigate();
@@ -8,8 +7,14 @@ export default function CreateGenre(){
     return(
         <>
         <h3>Create Genre</h3>
-        <Link className="btn btn-primary" to="/genres">Back to Genres</Link>
-        <button onClick={() =>{ navigate('/genres')}}>Save Changes</button>
+        <br />
+        <GenreForm  model={{name : ''}}
+            onSubmit={async (values) => {
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                console.log(values);
+                navigate('/genres');
+            }}
+        />
         </>
     )
 }
