@@ -6,3 +6,10 @@ export interface actorCreationDto{
     biography?: string;
     awards: string[];
 }
+
+export interface actorMovieDto{
+    id: number;
+    name: string;
+    character: string;
+    picture: string;
+}

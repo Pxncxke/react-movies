@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { NavLink } from "react-router-dom";
 
 export default function Menu(){
@@ -22,6 +23,15 @@ export default function Menu(){
                 </li>
                 <li className="nav-item">
                 <NavLink className="nav-link active" aria-current="page" to="/movietheaters">Movie Theaters</NavLink>
+                </li>
+                <li className="nav-item dropdown">
+                <NavLink className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Movies
+                </NavLink>
+                    <ul className="dropdown-menu">
+                        <li><NavLink className="dropdown-item" to="/movies/create">Create Movie</NavLink></li>
+                        <li><NavLink className="dropdown-item" to="/movies/edit/15">Edit Movie</NavLink></li>
+                    </ul>
                 </li>
             </ul>
             </div>
