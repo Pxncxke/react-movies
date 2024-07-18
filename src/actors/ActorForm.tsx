@@ -15,19 +15,18 @@ export default function ActorForm(props: actorFormProps){
         validationSchema={
             Yup.object({
                 name: Yup.string().required('This field is required').max(50),
-                dateOfBirth: Yup.date().nullable().required('This field is required'),
-                biography: Yup.string().nullable().required('This field is required'),
-                picture: Yup.mixed().required('This field is required'),
-                pictureUri: Yup.string().nullable(),
-                awards: Yup.string().required('This field is required')
+                // dateOfBirth: Yup.date().nullable().required('This field is required'),
+                // biography: Yup.string().nullable().required('This field is required'),
+                // picture: Yup.mixed().required('This field is required'),
+                // pictureUri: Yup.string().nullable(),
+                // awards: Yup.string().nullable()
             })
         }>
             {(formikProps) => (
                <Form>
                     <TextField name="name" label="Name" type="text"/>
                     <DateField name="dateOfBirth" label="Date of Birth"/>
-                    <ImageField name="picture" label="Picture" imageUri={props.model.pictureUri}/>
-                    <TextField name="awards" label="Awards" type="text"/>
+                    <ImageField name="picture" label="Picture" imageUrl={props.model.pictureUrl}/>
                     <MarkdownField name="biography" label="Biography"/>
                     <Button text="Save" type="submit" disabled={formikProps.isSubmitting}/>
                     <Link className="btn btn-secondary" to="/actors">Cancel</Link>
@@ -40,5 +39,5 @@ export default function ActorForm(props: actorFormProps){
 
 interface actorFormProps{
     model: actorCreationDto;
-    onSubmit: (values: actorCreationDto, action: FormikHelpers<actorCreationDto>) => void;
+    onSubmit(values: actorCreationDto, action: FormikHelpers<actorCreationDto>): void;
 }

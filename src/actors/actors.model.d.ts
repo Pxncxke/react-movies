@@ -1,10 +1,10 @@
 export interface actorCreationDto{
+    id?: string;
     name: string;
     dateOfBirth?: Date;
     picture?: File;
-    pictureUri?: string;
+    pictureUrl?: string;
     biography?: string;
-    awards: string[];
 }
 
 export interface actorMovieDto{
@@ -12,4 +12,12 @@ export interface actorMovieDto{
     name: string;
     character: string;
     picture: string;
+}
+
+export interface actorDto{
+    id: string;
+    name: string;
+    dateOfBirth: Date;
+    picture: string;
+    biography: string;
 }

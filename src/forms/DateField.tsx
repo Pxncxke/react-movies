@@ -6,7 +6,7 @@ export default function DateField(props: dateFieldProps) {
         <div className="mb-3">
             <label htmlFor={props.name}>{props.label}</label>
             <input type="date" id={props.name} name={props.name} className="form-control" 
-            defaultValue={values[props.name]?.toLocaleDateString('en-US')}
+            defaultValue={values[props.name]?.toLocaleDateString('en-CA')}
             onChange={e => {
                 const date = new Date(e.target.value + 'T00:00:00');
                 values[props.name] = date;

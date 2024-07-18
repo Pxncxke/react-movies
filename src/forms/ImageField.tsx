@@ -4,7 +4,7 @@ import { useState } from "react";
 export default function ImageField(props: imageFieldProps) {
 
     const[imageBase64, setImageBase64] = useState('');
-    const [imageUri, setImageUri] = useState(props.imageUri);
+    const [imageUrl, setImageUri] = useState(props.imageUrl);
     const {values} = useFormikContext<any>();
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,6 +19,10 @@ export default function ImageField(props: imageFieldProps) {
             toBase64(file).then((base64Representation : string) => 
                 setImageBase64(base64Representation)).catch(error => console.error(error));
             values[props.name] = file;
+            setImageUri('');
+        }
+        else{
+            setImageBase64('');
             setImageUri('');
         }
     }
@@ -43,7 +47,7 @@ export default function ImageField(props: imageFieldProps) {
                 {imageBase64 ? <img src={imageBase64} alt="selected" style={{width: '300px', marginTop: '10px'}}/> : null}
            </div>
            <div>
-                {imageUri ? <img src={imageUri} alt="selected" style={{width: '300px', marginTop: '10px'}}/> : null}
+                {imageUrl ? <img src={imageUrl} alt="selected" style={{width: '300px', marginTop: '10px'}}/> : null}
            </div>
         </div>
     )
@@ -52,9 +56,9 @@ export default function ImageField(props: imageFieldProps) {
 interface imageFieldProps {
     name: string;
     label: string;
-    imageUri?: string;
+    imageUrl?: string;
 }
 
 ImageField.defaultProps = {
-    imageUri: ''
+    imageUrl: ''
 }

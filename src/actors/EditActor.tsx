@@ -1,14 +1,34 @@
 import { Link } from "react-router-dom";
 import ActorForm from "./ActorForm";
+import EditEntity from "../utils/EditEntity";
+import { urlActors } from "../endpoints";
+import { actorCreationDto, actorDto } from "./actors.model";
+import { convertActorToFormData } from "../utils/formDataUtils";
 
 export default function EditActor(){
+
+    function transform(actor: actorDto): actorCreationDto{
+        return {
+            name: actor.name,
+            dateOfBirth: new Date(actor.dateOfBirth),
+            pictureUrl: actor.picture,
+            biography: actor.biography
+        }
+    }
+
     return(
         <>
-        <h3>Edit Actors</h3>
-        <ActorForm model={{name: 'Tom Holland', dateOfBirth: new Date(), 
-        pictureUri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Tom_Holland_by_Gage_Skidmore.jpg/220px-Tom_Holland_by_Gage_Skidmore.jpg', 
-        biography: '', awards: []}}
-            onSubmit={values => console.log(values)}/>
+         <EditEntity<actorCreationDto, actorDto> url={urlActors} 
+            transformFormData={convertActorToFormData}
+            transform={transform}
+            indexUrl="/actors" 
+            entityName="Actor">
+            {(entity, edit) => 
+            <>
+                <ActorForm model={entity} onSubmit={async values => await edit(values)} />
+            </>
+            }
+         </EditEntity>
         </>
     )
 }

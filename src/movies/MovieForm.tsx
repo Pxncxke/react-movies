@@ -49,7 +49,7 @@ export default function MovieForm(props: movieFormProps) {
                     <TextField name="trailer" label="Trailer" type="text" />
                     <TextField name="summary" label="Summary" type="text" />
                     <DateField name="releaseDate" label="Release Date"  />
-                    <ImageField name="poster" label="Poster"  imageUri={props.model.posterURL}/>
+                    <ImageField name="poster" label="Poster"  imageUrl={props.model.posterURL}/>
                     <MultipleSelector label="Genres" nonSelected={unSelectedGenres} selected={selectedGenres} 
                     onChange={(selected, nonselected) =>{
                         setSelectedGenres(selected);
