@@ -14,6 +14,7 @@ import { genreDto } from "../genres/genres.model";
 import { movieTheaterDto } from "../movietheaters/movieTheater.model";
 import TypeAheadActor from "../forms/TypeAheadActor";
 import { actorMovieDto } from "../actors/actors.model";
+import MarkdownField from "../forms/MarkdownField";
 
 export default function MovieForm(props: movieFormProps) {
 
@@ -26,8 +27,9 @@ export default function MovieForm(props: movieFormProps) {
     const[selectedActors, setSelectedActors] = useState(props.selectedActors);
 
     function mapToModel(items: {id: string, name: string}[]) : multipleSelectorModel[] {
+        // console.log(items);
         return items.map(item => {
-            return {id: item.id, value: item.name}
+            return {id: item.id, name: item.name}
         });
     }
 
@@ -47,7 +49,7 @@ export default function MovieForm(props: movieFormProps) {
                     <TextField name="title" label="Title" type="text" />
                     <CheckboxField name="inTheaters" label="In Theaters" />
                     <TextField name="trailer" label="Trailer" type="text" />
-                    <TextField name="summary" label="Summary" type="text" />
+                    <MarkdownField name="summary" label="Summary"/>
                     <DateField name="releaseDate" label="Release Date"  />
                     <ImageField name="poster" label="Poster"  imageUrl={props.model.posterURL}/>
                     <MultipleSelector label="Genres" nonSelected={unSelectedGenres} selected={selectedGenres} 
@@ -79,7 +81,7 @@ export default function MovieForm(props: movieFormProps) {
                             </>
                         } 
                         />
-                    <Button text="Save Changes" type="submit" disabled={formikProps.isSubmitting} />
+                    <Button text="Save Changes" type="submit"  />
                     <Link   to="/movies" className="btn btn-secondary">Cancel</Link>
                 </Form>
             )}

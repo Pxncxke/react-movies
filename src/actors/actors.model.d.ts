@@ -8,7 +8,7 @@ export interface actorCreationDto{
 }
 
 export interface actorMovieDto{
-    id: number;
+    id: string;
     name: string;
     character: string;
     picture: string;

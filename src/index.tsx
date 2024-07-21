@@ -5,6 +5,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js';
+import {library} from '@fortawesome/fontawesome-svg-core';
+import{faStar} from '@fortawesome/free-solid-svg-icons';
+
+library.add(faStar);
 
 // const dotenv = require("dotenv")
 // dotenv.config()

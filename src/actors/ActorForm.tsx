@@ -15,11 +15,8 @@ export default function ActorForm(props: actorFormProps){
         validationSchema={
             Yup.object({
                 name: Yup.string().required('This field is required').max(50),
-                // dateOfBirth: Yup.date().nullable().required('This field is required'),
-                // biography: Yup.string().nullable().required('This field is required'),
-                // picture: Yup.mixed().required('This field is required'),
-                // pictureUri: Yup.string().nullable(),
-                // awards: Yup.string().nullable()
+                dateOfBirth: Yup.date().nullable().required('This field is required'),
+                biography: Yup.string().nullable().required('This field is required'),
             })
         }>
             {(formikProps) => (

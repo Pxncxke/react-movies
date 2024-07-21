@@ -24,7 +24,7 @@ export default function MultipleSelector(props: multipleSelectorProps) {
                            
                             props.onChange([...props.selected, item], props.nonSelected.filter(x => x.id !== item.id));
                         }}>
-                            {item.value}
+                            {item.name}
                         </li>
                     ))}
                     </ul>
@@ -38,7 +38,7 @@ export default function MultipleSelector(props: multipleSelectorProps) {
                             
                             props.onChange(props.selected.filter(x => x.id !== item.id), [...props.nonSelected, item]);
                         }}>
-                            {item.value}
+                            {item.name}
                         </li>
                     ))}
                 </ul>
@@ -57,5 +57,5 @@ interface multipleSelectorProps {
 
 export interface multipleSelectorModel {
     id: string;
-    value: string;
+    name: string;
 }

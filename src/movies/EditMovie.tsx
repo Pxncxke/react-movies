@@ -1,26 +1,84 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import MovieForm from "./MovieForm";
+import { useEffect, useState } from "react";
+import axios, { Axios, AxiosResponse } from "axios";
+import { urlMovies } from "../endpoints";
+import { movieCreationDto, movieDto, movieUpdateDto } from "./movies.model";
+import { convertMovieToFormData } from "../utils/formDataUtils";
+import DisplayErrors from "../utils/DisplayErrors";
+import Loading from "../utils/Loading";
 
 export default function EditMovie(){
-    const selectedActor = [{
-        id: 1,
-        name: 'Tom Holland',
-        character: 'Spider-man',
-        picture: 'https://image.tmdb.org/t/p/original/bBRlrpJm9XkNSg0YT5LCaxqoFMX.jpg'
-        }];
+    const navigate  = useNavigate();
+    const[movie, setMovie] = useState<movieCreationDto>();
+    const[updateMovie, setUpdateMovie] = useState<movieUpdateDto>();
+    const [errors, setErrors] = useState<string[]>([]);
+    const {id} = useParams<{id: string}>();
+    
+    useEffect(()=>{
+        axios.get(`${urlMovies}/${id}`)
+            .then((response: AxiosResponse<movieUpdateDto>) => {
+                console.log(response.data);
+                const model: movieCreationDto ={
+                    id: response.data.movie.id,
+                    title: response.data.movie.title,
+                    summary: response.data.movie.summary,
+                    inTheaters: response.data.movie.inTheaters,
+                    trailer: response.data.movie.trailer,
+                    releaseDate: new Date(response.data.movie.releaseDate),
+                    // poster: response.data.movie.poster,
+                    posterURL: response.data.movie.poster,
+                    // genresIds: response.data.selectedGenres.map(val => val.id),
+                    // movieTheatersIds: response.data.selectedMovieTheaters.map(val => val.id),
+                    // actors: response.data.actors
+                };
+
+                setMovie(model);
+                setUpdateMovie(response.data);
+            })
+    },[id]);
+
+
+    async function edit(movie: movieCreationDto){
+        try{
+            const formData = convertMovieToFormData(movie);
+            console.log(movie);
+            await axios({
+                method: 'put',
+                url: `${urlMovies}`,
+                data: formData,
+                headers: {'Content-Type': 'multipart/form-data'}
+            })
+            navigate(`/movies/details/${id}`);
+        }
+        catch(error: any){
+            if(error && error.response){
+                setErrors(error.response.data);
+                console.log(error.response.data);
+            }
+        }
+    }
+
+    // const selectedActor = [{
+    //     id: 1,
+    //     name: 'Tom Holland',
+    //     character: 'Spider-man',
+    //     picture: 'https://image.tmdb.org/t/p/original/bBRlrpJm9XkNSg0YT5LCaxqoFMX.jpg'
+    //     }];
     return(
         <>
         <h3>Edit Movie</h3>
-         <MovieForm model={{title:'The Lord of the Rings', 
-            summary:'The Lord of the Rings is a film series of three epic fantasy adventure films directed by Peter Jackson, based on the novel written by J. R. R. Tolkien. The films are subtitled The Fellowship of the Ring (2001), The Two Towers (2002), and The Return of the King (2003). Produced and distributed by New Line Cinema with the co-production of WingNut Films, it is an international venture between New Zealand and the United States. The films feature an ensemble cast including Elijah Wood, Ian McKellen, Liv Tyler, Viggo Mortensen, Sean Astin, Cate Blanchett, John Rhys-Davies, Christopher Lee, Billy Boyd, Dominic Monaghan, Orlando Bloom, Hugo Weaving, Andy Serkis, and Sean Bean. The trilogy was noted for its innovative special effects, cinematography, musical score, and emotional depth. They are among the highest-grossing films of all time.', 
-            inTheaters: true, trailer:'https://www.youtube.com/watch?v=V75dMMIW2B4',   releaseDate: new Date('2001-12-19'), 
-            poster: undefined, posterURL: 'https://www.imdb.com/title/tt0120737/mediaviewer/rm2359265536/'}}  
-            selectedGenres={[{id: '1', name: 'Adventure'},{id: '2', name: 'Drama'}]}
-            unSelectedGenres={[{id: '3', name: 'Comedy'},{id: '4', name: 'Thriller'}]}
-            selectedMovieTheaters={[{id: '1', name: 'Cinemark'},{id: '2', name: 'Cinepolis'}]}
-            unSelectedMovieTheaters={[{id: '3', name: 'Cinemex'},{id: '4', name: 'Cinebox'}]}
-            selectedActors={selectedActor}
-            onSubmit={values => console.log(values)}/>
+        <DisplayErrors  errors={errors} />
+        {movie && updateMovie ? 
+            <MovieForm model={movie}  
+            selectedGenres={updateMovie.selectedGenres}
+            unSelectedGenres={updateMovie.unSelectedGenres}
+            selectedMovieTheaters={updateMovie.selectedMovieTheaters}
+            unSelectedMovieTheaters={updateMovie.unSelectedMovieTheaters}
+            selectedActors={updateMovie.actors}
+            onSubmit={async values => await edit(values)}/>
+        : <Loading />}
+         
         </>
     )
 }

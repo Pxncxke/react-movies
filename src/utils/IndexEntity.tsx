@@ -45,7 +45,8 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
     return(
         <>
         <h3 className="text-center mt-3 mb-3">{props.title}</h3>  
-        <Link className="btn btn-primary float-end mb-3" to={props.createUrl}>Create {props.entityName}</Link>
+        {props.createUrl ? <Link className="btn btn-primary float-end mb-3" to={props.createUrl}>Create {props.entityName}</Link> : null}
+
        
         <GenericList list={entities}>
             <table className="table table-striped table-bordered table-responsive mt-3">
@@ -64,8 +65,8 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
 
 interface indexEntityProps<T> {
     url: string;
-    createUrl: string;
+    createUrl?: string;
     title: string;
-    entityName: string;
+    entityName?: string;
     children(entity: T[], buttons: (editUrl: string, id: string) => ReactElement): ReactElement;
 }
